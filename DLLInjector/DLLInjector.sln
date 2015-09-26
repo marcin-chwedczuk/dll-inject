@@ -8,10 +8,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{85997A02-BED0-4C47-8045-30330B2BF4CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLLInjector.Gui", "DLLInjector.Gui\DLLInjector.Gui.csproj", "{4FF74E94-5685-428A-9945-42FAC26C87DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4390BC42-3BA5-411A-942A-EF26127A1532} = {4390BC42-3BA5-411A-942A-EF26127A1532}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DLLToInject", "DLLToInject\DLLToInject.vcxproj", "{4390BC42-3BA5-411A-942A-EF26127A1532}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLLInjector.Tests", "DLLInjector.Tests\DLLInjector.Tests.csproj", "{F539AFB5-E790-4673-9CBF-59484C8E9A21}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4390BC42-3BA5-411A-942A-EF26127A1532} = {4390BC42-3BA5-411A-942A-EF26127A1532}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Victim", "Victim\Victim.csproj", "{01C80C6D-09B7-4F35-AE2C-55C8ABA87601}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +59,12 @@ Global
 		{F539AFB5-E790-4673-9CBF-59484C8E9A21}.Release|x64.Build.0 = Release|Any CPU
 		{F539AFB5-E790-4673-9CBF-59484C8E9A21}.Release|x86.ActiveCfg = Release|Any CPU
 		{F539AFB5-E790-4673-9CBF-59484C8E9A21}.Release|x86.Build.0 = Release|Any CPU
+		{01C80C6D-09B7-4F35-AE2C-55C8ABA87601}.Debug|x64.ActiveCfg = Debug|x64
+		{01C80C6D-09B7-4F35-AE2C-55C8ABA87601}.Debug|x64.Build.0 = Debug|x64
+		{01C80C6D-09B7-4F35-AE2C-55C8ABA87601}.Debug|x86.ActiveCfg = Debug|x86
+		{01C80C6D-09B7-4F35-AE2C-55C8ABA87601}.Debug|x86.Build.0 = Debug|x86
+		{01C80C6D-09B7-4F35-AE2C-55C8ABA87601}.Release|x64.ActiveCfg = Release|Any CPU
+		{01C80C6D-09B7-4F35-AE2C-55C8ABA87601}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,5 +72,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4390BC42-3BA5-411A-942A-EF26127A1532} = {85997A02-BED0-4C47-8045-30330B2BF4CC}
 		{F539AFB5-E790-4673-9CBF-59484C8E9A21} = {85997A02-BED0-4C47-8045-30330B2BF4CC}
+		{01C80C6D-09B7-4F35-AE2C-55C8ABA87601} = {85997A02-BED0-4C47-8045-30330B2BF4CC}
 	EndGlobalSection
 EndGlobal
