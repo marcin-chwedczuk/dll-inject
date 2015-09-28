@@ -6,12 +6,15 @@ static HANDLE evilThread = NULL;
 DWORD WINAPI EvilThread(LPVOID)
 {
 	HANDLE  hStdout = NULL;
-	if ((hStdout = GetStdHandle(STD_OUTPUT_HANDLE)) == INVALID_HANDLE_VALUE)
+	if ((hStdout = GetStdHandle(STD_OUTPUT_HANDLE)) == INVALID_HANDLE_VALUE) {
 		return 1;
+	}
 
 	char message[] = "\r\nDLL_INJECTED\r\n";
 	while (!exitThreads) {
-		WriteConsoleA(hStdout, message, sizeof(message), NULL, NULL);
+		DWORD tmp;
+		WriteFile(hStdout, message, sizeof(message), &tmp, NULL);
+
 		Sleep(1500);
 	}
 

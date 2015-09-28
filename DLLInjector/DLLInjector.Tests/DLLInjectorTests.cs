@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DLLInjection.Tests {
@@ -25,15 +26,13 @@ namespace DLLInjection.Tests {
                 RedirectStandardError = false,
             });
 
-            string pidLine = _victim.StandardOutput.ReadLine();
-            _pid = int.Parse(pidLine.Split()[1]);
+            _pid = _victim.Id;
         }
 
         [TearDown]
         public void TearDown() {
             try {
                 _victim.StandardInput.WriteLine("quit");
-                _victim.StandardOutput.ReadToEnd();
 
                 if (!_victim.WaitForExit((int)TimeSpan.FromSeconds(10).TotalMilliseconds)) {
                     _victim.Kill();
@@ -47,17 +46,32 @@ namespace DLLInjection.Tests {
             }
         }
 
-        [Test /*, Timeout(30*1000)*/]
+        [Test]
         public void DLL_Injector_Should_Inject_DLL_Using_Create_Remote_Thread_Method() {
             var injector = new DLLInjector(InjectionMethod.CREATE_REMOTE_THREAD);
             injector.Inject(_pid, @"DLLToInject.dll");
 
-            //_victim.StandardInput.WriteLine("foo");
+            AssertDLLSuccessfullyInjected(timeoutSeconds: 30);
+        }
 
-            string line;
-            while ((line = _victim.StandardOutput.ReadLine()) != null) {
-                if (line.Contains("DLL_INJECTED"))
-                    break;
+        private void AssertDLLSuccessfullyInjected(int timeoutSeconds) {
+            bool dllInjected = false;
+
+            _victim.OutputDataReceived += (sender, e) => {
+                if (e.Data != null && e.Data.Contains("DLL_INJECTED")) {
+                    dllInjected = true;
+                }
+            };
+            _victim.BeginOutputReadLine();
+
+            var start = DateTime.Now;
+            while (!dllInjected) {
+                // sleep introduces memory barrier
+                Thread.Sleep(100);
+
+                if (DateTime.Now.Subtract(start).TotalSeconds > timeoutSeconds) {
+                    Assert.Fail("After waiting {0} seconds, no input was received from DLLToInject.", timeoutSeconds);
+                }
             }
         }
     }
